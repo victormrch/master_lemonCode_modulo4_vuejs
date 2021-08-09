@@ -2,10 +2,14 @@
   <div>
     <div class="search">
       <v-text-field
-        type="text"
-        placeholder="lemoncode"
         v-model="organization"
-      />
+        clearable
+        flat
+        solo-inverted
+        hide-details
+        class="text"
+        label="text"
+      ></v-text-field>
       <v-btn color="primary" @click="search()">Search</v-btn>
     </div>
     <div v-if="loading">Loading...</div>
@@ -14,41 +18,21 @@
     </h1>
 
     <div v-if="!error" class="members">
-      <div v-for="member in members" :key="member.id">
-        <v-card class="members-card" tile>
-          <v-img
-            height="100%"
-            src="https://cdn.vuetifyjs.com/images/cards/server-room.jpg"
+      <div v-for="member in members" :key="member.id" class="container">
+        <nuxt-link :to="'/' + member.login">
+          <div
+            class="card card0"
+            :style="{ backgroundImage: 'url(' + member.avatar_url + ')' }"
           >
-            <v-row align="end" class="fill-height">
-              <v-col align-self="start" class="pa-0" cols="12">
-                <v-avatar class="profile" color="grey" size="164" tile>
-                  <v-img :src="member.avatar_url"></v-img>
-                </v-avatar>
-              </v-col>
-              <v-col class="py-0">
-                <v-list-item color="rgba(0, 0, 0, .4)" dark>
-                  <v-list-item-content>
-                    <v-list-item-title class="text-h6">
-                      {{ member.login }}
-                    </v-list-item-title>
-                    <v-list-item-subtitle>{{
-                      member.url
-                    }}</v-list-item-subtitle>
-                  </v-list-item-content>
-                </v-list-item>
-              </v-col>
-            </v-row>
-          </v-img>
-        </v-card>
+            <div class="border">
+              <h2>{{ member.login }}</h2>
+            </div>
+          </div>
+        </nuxt-link>
       </div>
     </div>
-    <v-alert
-      text
-      prominent
-      type="error"
-      icon="mdi-badge-account-alert-outline"
-      v-else
+
+    <v-alert text prominent type="error" icon="mdi-account-search" v-else
       >No result for your search:
       {{ capitalizeFirstLetter(oldSearches) }}</v-alert
     >
@@ -57,6 +41,7 @@
 
 <script>
 import axios from 'axios';
+
 import capitalizeFirstLetter from '@/assets/utils/capitalizeFirstLetter';
 export default {
   data() {
@@ -66,16 +51,12 @@ export default {
       loading: false,
       oldSearches: '',
       error: '',
+      page: 1,
     };
   },
   created() {
     this.search();
   },
-  // watch: {
-  //   organization() {
-  //     this.search()
-  //   },
-  // },
   computed: {},
   methods: {
     capitalizeFirstLetter,
@@ -84,11 +65,12 @@ export default {
       this.oldSearches = this.organization;
       this.loading = true;
       this.error = '';
+
       try {
         const res = await axios.get(url);
         this.members = res.data;
-        console.log(res.data);
         this.loading = false;
+        console.log(this.members);
       } catch (error) {
         console.log(error);
         this.loading = false;
@@ -101,22 +83,83 @@ export default {
 <style scoped>
 h1 {
   padding: 10px 2px;
+  color: #42a5f5;
 }
-.mx-auto {
-  margin: 50px 50px;
-}
+
 .members {
   display: flex;
   flex-wrap: wrap;
   width: 100%;
   justify-content: center;
 }
-.members-card {
-  max-width: 250px;
-  margin: 20px;
-}
+
 .search {
   margin-bottom: 20px;
   color: white;
+}
+.text {
+  width: 250px;
+}
+
+.container {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 300px;
+}
+.border {
+  height: 280px;
+  width: 250px;
+  background: transparent;
+  border-radius: 20px;
+  transition: border 0.5s;
+  position: relative;
+}
+.border:hover {
+  border: 5px solid #42a5f5;
+}
+.card {
+  height: 300px;
+  width: 300px;
+  background: #808080;
+  border-radius: 10px;
+  transition: background 0.8s;
+  overflow: hidden;
+  background: #000;
+  box-shadow: 0 70px 63px -60px #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.card0 {
+  background-size: 300px;
+}
+.card0:hover {
+  background-size: 500px;
+  cursor: pointer;
+}
+.card0:hover h2 {
+  opacity: 1;
+}
+
+.card0:hover span {
+  opacity: 1;
+}
+
+h2 {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #42a5f5;
+  margin: 20px;
+  opacity: 0;
+  transition: opacity 1s;
+}
+
+span {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #42a5f5;
+  margin: 20px;
+  opacity: 0;
+  transition: opacity 1s;
 }
 </style>
