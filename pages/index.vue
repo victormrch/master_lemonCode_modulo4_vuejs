@@ -1,5 +1,6 @@
 <template>
   <div>
-    <Organization />
+    <Input />
+    <Member />
   </div>
 </template>

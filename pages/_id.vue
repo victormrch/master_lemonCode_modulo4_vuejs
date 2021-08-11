@@ -1,5 +1,12 @@
 <template>
   <div>
+    <div class="btn_home">
+      <v-btn class="ma-2" to="/" large fab color="red">
+        <v-icon>mdi-home</v-icon>
+      </v-btn>
+      <h2 to="/">Go Home</h2>
+    </div>
+
     <div id="card">
       <h1>{{ member.name }}</h1>
       <div class="image-crop">
@@ -26,7 +33,15 @@
         </div>
       </div>
       <div id="buttons">
-        <button v-bind:href="member.url">GitHub</button>
+        <v-btn
+          class="ma-2"
+          small
+          fab
+          color="blue lighten-1"
+          :href="member.html_url"
+          target="_blank"
+          ><v-icon>mdi-github</v-icon></v-btn
+        >
       </div>
     </div>
   </div>
@@ -46,6 +61,7 @@ export default {
     try {
       const res = await axios.get(url);
       this.member = res.data;
+      console.log(member.url);
 
       console.log(this.member);
     } catch (error) {
@@ -79,6 +95,7 @@ h1 {
 
 .image-crop {
   display: block;
+
   position: relative;
   background-color: #e6ebee;
   width: 150px;
@@ -142,7 +159,7 @@ h1 {
 #buttons {
   display: flex;
   margin: 0 auto;
-  justify-content: space-between;
+  justify-content: center;
   width: 280px;
 }
 
@@ -169,10 +186,16 @@ button:hover {
   transform: scale(1.03);
   cursor: pointer;
   transition: all 0.2s ease-in-out;
+  color: #fff;
 }
 
 #msg {
   background-color: #e6ebee;
   color: #393b45;
+}
+.btn_home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 </style>
