@@ -37,15 +37,23 @@ export default {
   },
 };
 </script>
+
 <style scoped>
 .search {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
   color: white;
+  margin: 10px;
 }
 .search__input {
-  width: 100%;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  width: 75%;
   margin-right: 10px;
+}
+
+.btn {
+  margin-top: 32px;
 }
 </style>

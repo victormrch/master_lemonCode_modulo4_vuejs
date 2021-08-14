@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="profile">
     <div class="btn_home">
-      <v-btn class="ma-2" to="/" large fab color="red">
+      <v-btn class="ma-2" to="/" large fab color="blue">
         <v-icon>mdi-home</v-icon>
       </v-btn>
       <h2 to="/">Go Home</h2>
@@ -68,6 +68,11 @@ export default {
 };
 </script>
 <style scoped>
+.profile {
+  background: url(@/assets/img/main_header.jpeg);
+  height: 100vh;
+  width: 100vw;
+}
 #card {
   background-color: #393b45;
   height: auto;
