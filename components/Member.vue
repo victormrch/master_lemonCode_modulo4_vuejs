@@ -103,7 +103,7 @@ p,
 a {
   margin: 0px;
   text-decoration: none;
-  color: grey;
+  color: #393b45;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
