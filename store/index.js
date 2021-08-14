@@ -1,5 +1,5 @@
 export const state = () => ({
-  _members: [],
+  members: [],
   message: 'lemoncode',
   error: '',
   oldSearch: '',
@@ -7,7 +7,7 @@ export const state = () => ({
 
 export const mutations = {
   setMembers(state, members) {
-    state._members = members;
+    state.members = members;
   },
   updateMessage(state, payload) {
     state.message = payload;
@@ -22,7 +22,6 @@ export const mutations = {
 
 export const actions = {
   async loadMembers({ commit }, organization) {
-    console.log(organization);
     commit('setError', '');
     commit('setOldSearch', organization);
 
@@ -40,7 +39,7 @@ export const actions = {
 
 export const getters = {
   getMembers(state) {
-    return state._members;
+    return state.members;
   },
   getError(state) {
     return state.error;

@@ -61,9 +61,6 @@ export default {
     try {
       const res = await axios.get(url);
       this.member = res.data;
-      console.log(member.url);
-
-      console.log(this.member);
     } catch (error) {
       console.log(error);
     }

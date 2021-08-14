@@ -3,7 +3,11 @@
     <div v-if="!getError">
       <h1>Lista de empleados de {{ capitalizeFirstLetter(getOldSearch) }}</h1>
       <div class="members">
-        <div v-for="member in getMembers" :key="member.id" class="container">
+        <div
+          v-for="member in displayedMembers"
+          :key="member.id"
+          class="container"
+        >
           <nuxt-link :to="'/' + member.login">
             <div
               class="card card0"
@@ -17,23 +21,51 @@
         </div>
       </div>
     </div>
+
     <v-alert v-else prominent type="error" icon="mdi-account"
       >No result for your search:
       {{ capitalizeFirstLetter(getOldSearch) }}</v-alert
     >
+    <div class="text-center">
+      <v-pagination v-model="page" :length="setPages"></v-pagination>
+    </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import capitalizeFirstLetter from '@/assets/utils/capitalizeFirstLetter';
 export default {
+  data() {
+    return {
+      page: 1,
+      perPage: 8,
+      pages: [],
+    };
+  },
   computed: {
     ...mapGetters(['getMembers', 'getError', 'getOldSearch']),
+    ...mapState(['members']),
+    displayedMembers() {
+      return this.paginate(this.members);
+    },
+    setPages() {
+      const numberPages = Math.ceil(this.members.length / this.perPage);
+      return numberPages;
+    },
   },
   methods: {
     capitalizeFirstLetter,
+    paginate(members) {
+      const page = this.page;
+      const perPage = this.perPage;
+      const from = page * perPage - perPage;
+      const to = page * perPage;
+
+      return members.slice(from, to);
+    },
   },
+  watch: {},
 };
 </script>
 <style scoped>
